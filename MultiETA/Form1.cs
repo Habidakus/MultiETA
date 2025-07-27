@@ -26,6 +26,9 @@ namespace MultiETA
             timer.Interval = 250;
             timer.Tick += OnTick;
             timer.Start();
+
+            tabControl1.Controls.Remove(tabPage1);
+            //tabPage1.Hide();
         }
 
         private void OnTick(object? sender, EventArgs e)

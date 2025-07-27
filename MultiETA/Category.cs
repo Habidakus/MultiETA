@@ -9,7 +9,9 @@ namespace MultiETA
         private static List<Category> categories = new List<Category>();
 
         private TabPage tab_page = new TabPage();
+        private Button button_sort = new Button();
         private Dictionary<GroupBox, ETAGroup> gb_2_etag = new();
+        public int NextCreationOrder { get { return gb_2_etag.Any() ? gb_2_etag.Values.Max(a => a.creation_order) + 1 : 1; } }
 
         private JsonObject AsJson()
         {
@@ -19,8 +21,11 @@ namespace MultiETA
                 eta_array.Add(eta_group.AsJson());
             }
 
-            JsonObject json = new JsonObject();
-            json.Add("ETAs", eta_array);
+            JsonObject json = new JsonObject
+            {
+                { "Name", tab_page.Text },
+                { "ETAs", eta_array },
+            };
             return json;
         }
 
@@ -31,6 +36,14 @@ namespace MultiETA
             {
                 ETAGroup eta_group = CreateETAGroup(tab_page);
                 eta_group.Load(eta_el);
+            }
+
+            if (category_el.TryGetProperty("Name", out JsonElement name_el))
+            {
+                if (name_el.GetString() is String name_string)
+                {
+                    tab_page.Text = name_string;
+                }
             }
         }
 
@@ -86,7 +99,7 @@ namespace MultiETA
             button_add_eta.UseVisualStyleBackColor = true;
             button_add_eta.Click += (s, ev) => Button_add_eta_Click(tab_page);
 
-            Button button_sort = new Button();
+            button_sort.AutoSize = true;
             button_sort.Location = new Point(80, 11);
             button_sort.Size = new Size(62, 23);
             button_sort.Text = "Sort";
@@ -129,9 +142,32 @@ namespace MultiETA
             ETAGroup _ = CreateETAGroup(tab_page);
         }
 
+        private bool sort_by_eta;
         private void Button_sort_Click(TabPage tab_page)
         {
-            throw new NotImplementedException();
+            List<GroupBox> group_boxes = gb_2_etag.Keys.ToList();
+            sort_by_eta = !sort_by_eta;
+            button_sort.SuspendLayout();
+            if (sort_by_eta)
+            {
+                DateTime now = DateTime.Now;
+                group_boxes.Sort((right,left) => gb_2_etag[right].GetETA(now).CompareTo(gb_2_etag[left].GetETA(now)));
+                button_sort.Text = "Sort by creation order";
+            }
+            else
+            {
+                group_boxes.Sort((right, left) => gb_2_etag[right].creation_order.CompareTo(gb_2_etag[left].creation_order));
+                button_sort.Text = "Sort by ETA";
+            }
+            button_sort.ResumeLayout(false);
+            button_sort.PerformLayout();
+
+            int index = 0;
+            foreach (GroupBox group in group_boxes)
+            {
+                gb_2_etag[group].SetDisplaySlot(index);
+                ++index;
+            }
         }
 
         public static Category Create(TabControl tab_control)

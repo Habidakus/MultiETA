@@ -15,6 +15,8 @@ namespace MultiETA
         private Label eta_label = new Label();
         private Label estemated_current_value_label = new Label();
         public GroupBox group_box { get; }
+        public int creation_order { get; private set; }
+        private static int load_order = 0;
         private Category parent { get; }
         private double goal = 0;
         private AdaptiveETA? adaptive_eta = null;
@@ -26,11 +28,11 @@ namespace MultiETA
         const int GROUP_BOX_WIDTH = 930; // 939;
         const int GROUP_BOX_SEPERATOR = 6;
 
-
         internal JsonNode AsJson()
         {
             JsonObject json = new JsonObject
             {
+                { "CreationOrder", JsonValue.Create(creation_order) },
                 { "Name", JsonValue.Create(group_box.Text) },
                 { "RunState", JsonValue.Create(run_state.ToString()) },
                 { "Goal", JsonValue.Create(goal) }
@@ -55,6 +57,18 @@ namespace MultiETA
             var tmp_run_state = (RunState)Enum.Parse(typeof(RunState), run_state_string);
             run_state = tmp_run_state;
 
+            if (eta_el.TryGetProperty("CreationOrder", out JsonElement creation_order_el))
+            {
+                if (!creation_order_el.TryGetInt32(out int creation_order_read))
+                {
+                    creation_order = creation_order_read;
+                }
+                else
+                {
+                    creation_order = ++load_order;
+                }
+            }
+
             JsonElement name_el = eta_el.GetProperty("Name");
             group_box.Text = name_el.GetString();
 
@@ -75,16 +89,20 @@ namespace MultiETA
                 UpdateRunState(RunState.Running);
             }
 
-            JsonElement adaptive_el = eta_el.GetProperty("EtaData");
-            if (adaptive_el.EnumerateObject().Any())
+            if (eta_el.TryGetProperty("EtaData", out JsonElement adaptive_el))
             {
-                adaptive_eta = new AdaptiveETA(adaptive_el);
+                if (adaptive_el.EnumerateObject().Any())
+                {
+                    adaptive_eta = new AdaptiveETA(adaptive_el);
+                }
             }
         }
 
         public ETAGroup(Category category, TabPage tab_page)
         {
             parent = category;
+            creation_order = category.NextCreationOrder;
+
             group_box = new GroupBox();
             group_box.SuspendLayout();
 
@@ -262,6 +280,23 @@ namespace MultiETA
                 return;
             }
         }
+
+        public DateTime GetETA(DateTime now)
+        {
+            if (adaptive_eta == null)
+            {
+                return DateTime.MaxValue;
+            }
+
+            (double _, DateTime eta, double amountPerSecond) = adaptive_eta.GetEstimate(now);
+            if (double.IsNaN(amountPerSecond) || double.IsInfinity(amountPerSecond))
+            {
+                return DateTime.MaxValue;
+            }
+
+            return eta;
+        }
+
         public void UpdateEstimate(DateTime now)
         {
             if (adaptive_eta == null)
@@ -371,6 +406,11 @@ namespace MultiETA
 
             tab_page.ResumeLayout(false);
             tab_page.PerformLayout();
+        }
+
+        internal void SetDisplaySlot(int index)
+        {
+            group_box.Location = new Point(6, GROUP_BOX_START_Y + index * (GROUP_BOX_HEIGHT + GROUP_BOX_SEPERATOR));
         }
 
         internal void MarkRemoved()
