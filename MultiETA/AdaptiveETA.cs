@@ -1,3 +1,6 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
 namespace MultiETA
 {
     public class AdaptiveETA
@@ -6,6 +9,39 @@ namespace MultiETA
         int _acquired = 0;
         double[] _values = new double[7];
         DateTime[] _dates = new DateTime[7];
+
+        internal JsonNode AsJson()
+        {
+            JsonArray data_array = new JsonArray();
+            for (int i = 0; i < _acquired; ++i)
+            {
+                JsonObject entry = new JsonObject
+                {
+                    { "Value", JsonValue.Create(_values[i]) },
+                    { "Date", JsonValue.Create(_dates[i]) },
+                };
+                data_array.Add(entry);
+            }
+
+            return new JsonObject {
+                { "Goal", JsonValue.Create(_goal) },
+                { "Data", data_array },
+            };
+        }
+
+        internal AdaptiveETA(JsonElement el)
+        {
+            _goal = el.GetProperty("Goal").GetDouble();
+            JsonElement data_array = el.GetProperty("Data");
+            foreach (JsonElement data_el in data_array.EnumerateArray())
+            {
+                JsonElement value_el = data_el.GetProperty("Value");
+                _values[_acquired] = value_el.GetDouble();
+                JsonElement date_el = data_el.GetProperty("Date");
+                _dates[_acquired] = date_el.GetDateTime();
+                ++_acquired;
+            }
+        }
 
         private int GetLeastValuableIndex(DateTime date)
         {

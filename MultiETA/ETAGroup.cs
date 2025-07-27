@@ -1,3 +1,6 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
 namespace MultiETA
 {
 
@@ -11,8 +14,9 @@ namespace MultiETA
         private Label rate_label = new Label();
         private Label eta_label = new Label();
         private Label estemated_current_value_label = new Label();
-        private GroupBox group_box { get; }
-        private float goal = 0f;
+        public GroupBox group_box { get; }
+        private Category parent { get; }
+        private double goal = 0;
         private AdaptiveETA? adaptive_eta = null;
         private enum RunState { NeedsName, NeedsGoal, NeedsStartValue, Running, Removed }
         private RunState run_state = RunState.NeedsName;
@@ -22,10 +26,65 @@ namespace MultiETA
         const int GROUP_BOX_WIDTH = 930; // 939;
         const int GROUP_BOX_SEPERATOR = 6;
 
-        private static Dictionary<GroupBox, ETAGroup> gb_2_etag = new();
 
-        public ETAGroup(TabPage tab_page)
+        internal JsonNode AsJson()
         {
+            JsonObject json = new JsonObject
+            {
+                { "Name", JsonValue.Create(group_box.Text) },
+                { "RunState", JsonValue.Create(run_state.ToString()) },
+                { "Goal", JsonValue.Create(goal) }
+            };
+            if (adaptive_eta != null)
+            {
+                json.Add("EtaData", adaptive_eta.AsJson());
+            }
+
+            return json;
+        }
+
+        internal void Load(JsonElement eta_el)
+        {
+            JsonElement run_state_el = eta_el.GetProperty("RunState");
+            string? run_state_string = run_state_el.GetString();
+            if (run_state_string == null)
+            {
+                throw new Exception($"Missing required value RunState in {eta_el.ToString()}");
+            }
+
+            var tmp_run_state = (RunState)Enum.Parse(typeof(RunState), run_state_string);
+            run_state = tmp_run_state;
+
+            JsonElement name_el = eta_el.GetProperty("Name");
+            group_box.Text = name_el.GetString();
+
+            JsonElement goal_el = eta_el.GetProperty("Goal");
+            goal_el.TryGetDouble(out goal);
+
+            if (tmp_run_state >= RunState.NeedsStartValue)
+            {
+                goal_label.Text = $"Goal: {goal}";
+                goal_label.Show();
+                UpdateRunState(RunState.NeedsStartValue);
+            }
+
+            if (tmp_run_state > RunState.NeedsStartValue)
+            {
+                last_update_label.Text = $"Last Update: LOAD";
+                last_update_label.Show();
+                UpdateRunState(RunState.Running);
+            }
+
+            JsonElement adaptive_el = eta_el.GetProperty("EtaData");
+            if (adaptive_el.EnumerateObject().Any())
+            {
+                adaptive_eta = new AdaptiveETA(adaptive_el);
+            }
+        }
+
+        public ETAGroup(Category category, TabPage tab_page)
+        {
+            parent = category;
             group_box = new GroupBox();
             group_box.SuspendLayout();
 
@@ -143,6 +202,7 @@ namespace MultiETA
                 return;
 
             e.Handled = true;
+            using SaveOnDispose saveOnDispose = Category.GenerateSaveOnDispose();
 
             if (run_state == RunState.NeedsName)
             {
@@ -153,7 +213,7 @@ namespace MultiETA
 
             if (run_state == RunState.NeedsGoal)
             {
-                if (!float.TryParse(text, out goal))
+                if (!double.TryParse(text, out goal))
                 {
                     System.Media.SystemSounds.Beep.Play();
                     return;
@@ -294,18 +354,10 @@ namespace MultiETA
             rate_label.Show();
         }
 
-        public static ETAGroup Create(TabPage tab_page)
-        {
-            ETAGroup eta_group = new ETAGroup(tab_page);
-            gb_2_etag.Add(eta_group.group_box, eta_group);
-
-            return eta_group;
-        }
-
         private void Button_remove_eta(TabPage tab_page, GroupBox group_box)
         {
             tab_page.SuspendLayout();
-            ETAGroup.Remove(tab_page, group_box);
+            parent.RemoveETAGroup(tab_page, group_box);
 
             int existing_group_box_count = 0;
             for (int i = 0; i < tab_page.Controls.Count; i++)
@@ -321,28 +373,9 @@ namespace MultiETA
             tab_page.PerformLayout();
         }
 
-        public static void Remove(TabPage tab_page, GroupBox group_box)
+        internal void MarkRemoved()
         {
-            if (gb_2_etag.TryGetValue(group_box, out ETAGroup? eta_group))
-            {
-                eta_group.run_state = RunState.Removed;
-                gb_2_etag.Remove(group_box);
-            }
-            else
-            {
-                Console.WriteLine("ERROR: Could not find group box to remove");
-            }
-            
-            tab_page.Controls.Remove(group_box);
-        }
-
-        public static void OnTick()
-        {
-            DateTime now = DateTime.Now;
-            foreach (ETAGroup group in gb_2_etag.Values)
-            {
-                group.UpdateEstimate(now);
-            }
+            run_state = RunState.Removed;
         }
     }
 }
