@@ -1,0 +1,75 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build Results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+[Tt]emp/
+[Rr]esharper/
+*_Resharper.DotSettings
+*.cache
+*.sdf
+*.vssscc
+*.vspscc
+*.bak
+*.log
+*.ncb
+*.opendb
+*.pdb
+*.pidb
+*.sbr
+*.tlog
+*.vcproj.filters
+*.vcxproj.filters
+*.vcxproj.user
+*.aps
+*.bsc
+*.lib
+*.map
+*.obj
+*.pch
+*.pgc
+*.pgd
+*.rsp
+*.idb
+*.ipch
+*.iobj
+*.iout
+*.pch
+*.res
+*.rgs
+*.tlh
+*.tli
+*.tmp
+*.vsix
+
+# NuGet Packages
+packages/
+*.nupkg
+
+# Rider Specific Files
+.idea/
+*.sln.iml
+
+# Visual Studio Code Specific Files (if used)
+.vscode/
+
+# Other common exclusions
+*.[Cc]ache
+*.orig
+*.swp
+*.bak
+*.patch
+*.diff
+
+# User-specific settings (e.g., appsettings.Development.json)
+# If you have environment-specific configuration files, you might want to exclude them
+# For example:
+# **/appsettings*.json
+# **/launchSettings.json

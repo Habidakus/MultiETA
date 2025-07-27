@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36121.58 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiETA", "MultiETA\MultiETA.csproj", "{085A27B4-66AB-4813-872F-93D010CEBDE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{085A27B4-66AB-4813-872F-93D010CEBDE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{085A27B4-66AB-4813-872F-93D010CEBDE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{085A27B4-66AB-4813-872F-93D010CEBDE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{085A27B4-66AB-4813-872F-93D010CEBDE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {32D04682-DBF9-4CC0-A3BC-2FF15299E494}
+	EndGlobalSection
+EndGlobal
