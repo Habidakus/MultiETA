@@ -93,6 +93,7 @@ namespace MultiETA
             tab_page.SuspendLayout();
 
             Button button_add_eta = new Button();
+            button_add_eta.AutoSize = true;
             button_add_eta.Location = new Point(12, 11);
             button_add_eta.Size = new Size(62, 23);
             button_add_eta.Text = "Add ETA";
@@ -100,7 +101,7 @@ namespace MultiETA
             button_add_eta.Click += (s, ev) => Button_add_eta_Click(tab_page);
 
             button_sort.AutoSize = true;
-            button_sort.Location = new Point(80, 11);
+            button_sort.Location = new Point(90, 11);
             button_sort.Size = new Size(62, 23);
             button_sort.Text = "Sort";
             button_sort.UseVisualStyleBackColor = true;
@@ -108,6 +109,7 @@ namespace MultiETA
 
             Button button_remove_category1 = new Button();
             tab_page.Controls.Add(button_remove_category1);
+            button_remove_category1.AutoSize = true;
             button_remove_category1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             button_remove_category1.Location = new Point(837, 11);
             button_remove_category1.Size = new Size(110, 23);
@@ -120,7 +122,7 @@ namespace MultiETA
             tab_page.Controls.Add(button_add_eta);
             tab_page.Location = new Point(4, 24);
             tab_page.Padding = new Padding(3);
-            tab_page.Size = new Size(980, 579);
+            tab_page.Size = new Size(1096, 776);
             tab_page.TabIndex = 0;
             tab_page.Text = "???";
             tab_page.UseVisualStyleBackColor = true;

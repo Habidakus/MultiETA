@@ -6,7 +6,6 @@ namespace MultiETA
 
     public class ETAGroup
     {
-
         private TextBox text_box = new();
         private Label run_state_label = new Label();
         private Label last_update_label = new Label();
@@ -23,9 +22,9 @@ namespace MultiETA
         private enum RunState { NeedsName, NeedsGoal, NeedsStartValue, Running, Removed }
         private RunState run_state = RunState.NeedsName;
 
-        const int GROUP_BOX_START_Y = 40;
-        const int GROUP_BOX_HEIGHT = 57;
-        const int GROUP_BOX_WIDTH = 930; // 939;
+        const int GROUP_BOX_START_Y = 50;
+        const int GROUP_BOX_HEIGHT = 66;
+        const int GROUP_BOX_WIDTH = 1064; // 939;
         const int GROUP_BOX_SEPERATOR = 6;
 
         public int CompareTo(DateTime now, ETAGroup other)
@@ -147,9 +146,9 @@ namespace MultiETA
             group_box.Text = "???";
 
             Button button_delete_eta = new Button();
-            button_delete_eta.Location = new Point(862, 20);
+            button_delete_eta.Location = new Point(985, 20);
             button_delete_eta.Name = "button4";
-            button_delete_eta.Size = new Size(56, 23);
+            button_delete_eta.Size = new Size(64, 31);
             button_delete_eta.TabIndex = 3;
             button_delete_eta.Text = "Delete";
             button_delete_eta.UseVisualStyleBackColor = true;
@@ -183,8 +182,8 @@ namespace MultiETA
             rate_label.Hide();
 
             eta_label.AutoSize = true;
-            eta_label.Location = new Point(577, 25);
-            eta_label.Size = new Size(153, 15);
+            eta_label.Location = new Point(659, 25);
+            eta_label.Size = new Size(193, 15);
             eta_label.Text = "ETA: 53m 53s,  Thur 5:21 pm";
             eta_label.Hide();
 
