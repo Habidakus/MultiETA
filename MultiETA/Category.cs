@@ -151,7 +151,7 @@ namespace MultiETA
             if (sort_by_eta)
             {
                 DateTime now = DateTime.Now;
-                group_boxes.Sort((right,left) => gb_2_etag[right].GetETA(now).CompareTo(gb_2_etag[left].GetETA(now)));
+                group_boxes.Sort((right,left) => gb_2_etag[right].CompareTo(now, gb_2_etag[left]));
                 button_sort.Text = "Sort by creation order";
             }
             else

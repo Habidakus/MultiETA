@@ -28,6 +28,33 @@ namespace MultiETA
         const int GROUP_BOX_WIDTH = 930; // 939;
         const int GROUP_BOX_SEPERATOR = 6;
 
+        public int CompareTo(DateTime now, ETAGroup other)
+        {
+            DateTime our_eta = GetETA(now);
+            DateTime their_eta = other.GetETA(now);
+            int comp = our_eta.CompareTo(their_eta);
+            if (comp != 0)
+                return comp;
+
+            if (run_state != other.run_state)
+                return run_state < other.run_state ? -1 : 1;
+
+            if (goal == 0 || other.goal == 0)
+                return 0;
+
+            bool has_adaptive = adaptive_eta != null;
+            bool they_have_adaptive = other.adaptive_eta != null;
+            if (has_adaptive != they_have_adaptive)
+                return has_adaptive ? -1 : 1;
+            if (has_adaptive == false)
+                return 0;
+
+            if (adaptive_eta!.Fraction != other.adaptive_eta!.Fraction)
+                return adaptive_eta.Fraction > other.adaptive_eta.Fraction ? -1 : 1;
+
+            return goal.CompareTo(other.goal);
+        }
+
         internal JsonNode AsJson()
         {
             JsonObject json = new JsonObject
@@ -94,6 +121,7 @@ namespace MultiETA
                 if (adaptive_el.EnumerateObject().Any())
                 {
                     adaptive_eta = new AdaptiveETA(adaptive_el);
+                    last_update_label.Text = $"Last Update: {adaptive_eta.LastEnteredValue}";
                 }
             }
         }
@@ -304,6 +332,13 @@ namespace MultiETA
                 return;
             }
 
+            if (adaptive_eta.LastEnteredValue >= goal)
+            {
+                eta_label.Text = "Achieved";
+                eta_label.Show();
+                return;
+            }
+
             (double currentAmount, DateTime eta, double amountPerSecond) = adaptive_eta.GetEstimate(now);
             if (double.IsNaN(amountPerSecond) || double.IsInfinity(amountPerSecond))
             {
@@ -359,7 +394,7 @@ namespace MultiETA
             }
             else
             {
-                eta_label.Text = "Achieved";
+                eta_label.Text = "Assumed achieved";
             }
             eta_label.Show();
 
