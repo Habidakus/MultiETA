@@ -1,0 +1,274 @@
+{
+  "Categories": [
+    {
+      "Name": "Mighty Mechanics",
+      "ETAs": [
+        {
+          "CreationOrder": 1,
+          "Name": "Breaches",
+          "RunState": "Running",
+          "Goal": 30,
+          "EtaData": {
+            "Goal": 30,
+            "Data": [
+              {
+                "Value": 13,
+                "Date": "2025-07-27T12:17:57.3955217-07:00"
+              },
+              {
+                "Value": 16,
+                "Date": "2025-07-27T20:05:26.3955251-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "CreationOrder": 2,
+          "Name": "Abysses",
+          "RunState": "Running",
+          "Goal": 30,
+          "EtaData": {
+            "Goal": 30,
+            "Data": [
+              {
+                "Value": 23,
+                "Date": "2025-07-27T12:18:12.7072198-07:00"
+              },
+              {
+                "Value": 24,
+                "Date": "2025-07-27T16:03:46.5869286-07:00"
+              },
+              {
+                "Value": 25,
+                "Date": "2025-07-27T17:01:27.557207-07:00"
+              },
+              {
+                "Value": 26,
+                "Date": "2025-07-27T18:18:21.8714552-07:00"
+              },
+              {
+                "Value": 27,
+                "Date": "2025-07-27T20:05:29.4514439-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "CreationOrder": 3,
+          "Name": "Expeditions",
+          "RunState": "Running",
+          "Goal": 30,
+          "EtaData": {
+            "Goal": 30,
+            "Data": [
+              {
+                "Value": 11,
+                "Date": "2025-07-27T12:18:21.8120874-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "CreationOrder": 4,
+          "Name": "Harvest Plots",
+          "RunState": "Running",
+          "Goal": 100,
+          "EtaData": {
+            "Goal": 100,
+            "Data": [
+              {
+                "Value": 24,
+                "Date": "2025-07-27T12:18:33.5474269-07:00"
+              },
+              {
+                "Value": 27,
+                "Date": "2025-07-27T20:05:36.2754032-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "CreationOrder": 5,
+          "Name": "Legion",
+          "RunState": "Running",
+          "Goal": 30,
+          "EtaData": {
+            "Goal": 30,
+            "Data": [
+              {
+                "Value": 8,
+                "Date": "2025-07-27T12:18:46.4834142-07:00"
+              },
+              {
+                "Value": 9,
+                "Date": "2025-07-27T19:40:01.8183137-07:00"
+              },
+              {
+                "Value": 10,
+                "Date": "2025-07-27T20:05:41.2834645-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "CreationOrder": 6,
+          "Name": "Smuggler\u0027s Caches",
+          "RunState": "Running",
+          "Goal": 30,
+          "EtaData": {
+            "Goal": 30,
+            "Data": [
+              {
+                "Value": 16,
+                "Date": "2025-07-27T12:19:02.7393193-07:00"
+              },
+              {
+                "Value": 17,
+                "Date": "2025-07-27T18:58:59.3768544-07:00"
+              },
+              {
+                "Value": 18,
+                "Date": "2025-07-27T20:05:45.4353054-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "CreationOrder": 7,
+          "Name": "Delirium",
+          "RunState": "Running",
+          "Goal": 30,
+          "EtaData": {
+            "Goal": 30,
+            "Data": [
+              {
+                "Value": 21,
+                "Date": "2025-07-27T12:19:12.7954109-07:00"
+              },
+              {
+                "Value": 22,
+                "Date": "2025-07-27T20:05:49.4353131-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "CreationOrder": 8,
+          "Name": "Ultimatum",
+          "RunState": "Running",
+          "Goal": 200,
+          "EtaData": {
+            "Goal": 200,
+            "Data": [
+              {
+                "Value": 0,
+                "Date": "2025-07-27T12:19:24.171217-07:00"
+              },
+              {
+                "Value": 2,
+                "Date": "2025-07-27T20:05:53.4430844-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "CreationOrder": 9,
+          "Name": "Blights",
+          "RunState": "Running",
+          "Goal": 30,
+          "EtaData": {
+            "Goal": 30,
+            "Data": [
+              {
+                "Value": 11,
+                "Date": "2025-07-27T12:19:38.1233992-07:00"
+              },
+              {
+                "Value": 12,
+                "Date": "2025-07-27T18:01:50.5356653-07:00"
+              },
+              {
+                "Value": 13,
+                "Date": "2025-07-27T18:18:52.9355041-07:00"
+              },
+              {
+                "Value": 14,
+                "Date": "2025-07-27T18:59:09.9370693-07:00"
+              },
+              {
+                "Value": 15,
+                "Date": "2025-07-27T19:21:32.3697845-07:00"
+              },
+              {
+                "Value": 16,
+                "Date": "2025-07-27T19:40:14.0584417-07:00"
+              },
+              {
+                "Value": 17,
+                "Date": "2025-07-27T20:05:57.4832459-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "CreationOrder": 10,
+          "Name": "Rituals",
+          "RunState": "Running",
+          "Goal": 100,
+          "EtaData": {
+            "Goal": 100,
+            "Data": [
+              {
+                "Value": 40,
+                "Date": "2025-07-27T12:19:53.6674619-07:00"
+              },
+              {
+                "Value": 43,
+                "Date": "2025-07-27T20:06:00.85147-07:00"
+              }
+            ]
+          }
+        },
+        {
+          "CreationOrder": 11,
+          "Name": "Ore Deposits",
+          "RunState": "Running",
+          "Goal": 60,
+          "EtaData": {
+            "Goal": 60,
+            "Data": [
+              {
+                "Value": 42,
+                "Date": "2025-07-27T12:20:15.4433934-07:00"
+              },
+              {
+                "Value": 50,
+                "Date": "2025-07-27T15:00:00.2808685-07:00"
+              },
+              {
+                "Value": 54,
+                "Date": "2025-07-27T16:04:24.0191129-07:00"
+              },
+              {
+                "Value": 55,
+                "Date": "2025-07-27T17:02:04.4929726-07:00"
+              },
+              {
+                "Value": 57,
+                "Date": "2025-07-27T17:24:23.7175831-07:00"
+              },
+              {
+                "Value": 59,
+                "Date": "2025-07-27T18:01:57.3911038-07:00"
+              },
+              {
+                "Value": 60,
+                "Date": "2025-07-27T18:19:00.9436088-07:00"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
