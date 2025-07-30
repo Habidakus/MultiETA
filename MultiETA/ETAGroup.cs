@@ -182,13 +182,13 @@ namespace MultiETA
             rate_label.Hide();
 
             eta_label.AutoSize = true;
-            eta_label.Location = new Point(659, 25);
+            eta_label.Location = new Point(550, 25);
             eta_label.Size = new Size(193, 15);
             eta_label.Text = "ETA: 53m 53s,  Thur 5:21 pm";
             eta_label.Hide();
 
             estemated_current_value_label.AutoSize = true;
-            estemated_current_value_label.Location = new Point(751, 24);
+            estemated_current_value_label.Location = new Point(795, 24);
             estemated_current_value_label.Size = new Size(92, 15);
             estemated_current_value_label.Text = "Est Value: 1056.4";
             estemated_current_value_label.Hide();
