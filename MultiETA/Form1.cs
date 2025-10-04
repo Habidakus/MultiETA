@@ -1,18 +1,48 @@
+using System.Diagnostics;
 using System.Text.Json;
+
 
 namespace MultiETA
 {
     public partial class Form1 : Form
     {
+        private string MutexName => "MultiETASingleInstance";
+
+        
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
         public Form1()
         {
             InitializeComponent();
         }
 
+        private void OnlyHaveOneInstanceOpen()
+        {
+            Mutex mutex = new Mutex(true, MutexName, out bool createdNew);
+            if (createdNew)
+            {
+                // Don't let the garbage collector cull this
+                GC.KeepAlive(mutex);
+                return;
+            }
+
+            // There is already an instance of this app running, we should bring it to the foreground and exit ourself.
+            Process currentProcess = Process.GetCurrentProcess();
+            Process? earlierProcess = Process.GetProcessesByName(currentProcess.ProcessName).Where(a => a.Id != currentProcess.Id).FirstOrDefault();
+            if (earlierProcess != null)
+            {
+                SetForegroundWindow(earlierProcess.MainWindowHandle);
+            }
+
+            currentProcess.Kill();
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-
             string settingsFilePath = Category.GetSaveDataPath();
+
+            OnlyHaveOneInstanceOpen();
 
             string jsonData = String.Empty;
             if (File.Exists(settingsFilePath))
