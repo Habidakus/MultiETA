@@ -5,17 +5,26 @@ namespace MultiETA
 {
     public class AdaptiveETA
     {
+        public enum GoalDirectionType
+        {
+            Unknown,
+            Increasing,
+            Decreasing,
+        }
+
         readonly double _goal;
         int _acquired = 0;
         double[] _values = new double[7];
         DateTime[] _dates = new DateTime[7];
 
-        public double Fraction
+        public GoalDirectionType GoalDirection
         {
             get
             {
-                return (_goal == 0) ? 0 : LastEnteredValue / _goal;
-            } 
+                if (_acquired == 0)
+                    return GoalDirectionType.Unknown;
+                return (_values[0] < _goal) ? GoalDirectionType.Increasing : GoalDirectionType.Decreasing;
+            }
         }
 
         public double LastEnteredValue
@@ -23,6 +32,22 @@ namespace MultiETA
             get
             {
                 return _acquired == 0 ? 0 : _values[_acquired - 1];
+            }
+        }
+
+        public bool HasAchieved
+        {
+            get
+            {
+                switch (GoalDirection)
+                {
+                    case GoalDirectionType.Increasing:
+                        return LastEnteredValue >= _goal;
+                    case GoalDirectionType.Decreasing:
+                        return LastEnteredValue <= _goal;
+                    default:
+                        return false;
+                }
             }
         }
 

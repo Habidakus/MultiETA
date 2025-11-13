@@ -48,8 +48,12 @@ namespace MultiETA
             if (has_adaptive == false)
                 return 0;
 
-            if (adaptive_eta!.Fraction != other.adaptive_eta!.Fraction)
-                return adaptive_eta.Fraction > other.adaptive_eta.Fraction ? -1 : 1;
+            (double currentAmount, DateTime eta, double amountPerSecond) our_estimate = adaptive_eta!.GetEstimate(now);
+            (double currentAmount, DateTime eta, double amountPerSecond) other_estimate = other.adaptive_eta!.GetEstimate(now);
+            if (our_estimate.eta != other_estimate.eta)
+            {
+                return our_estimate.eta.CompareTo(other_estimate.eta);
+            }
 
             return goal.CompareTo(other.goal);
         }
@@ -331,7 +335,7 @@ namespace MultiETA
                 return;
             }
 
-            if (adaptive_eta.LastEnteredValue >= goal)
+            if (adaptive_eta.HasAchieved)
             {
                 eta_label.Text = "Achieved";
                 eta_label.Show();
@@ -398,6 +402,7 @@ namespace MultiETA
             eta_label.Show();
 
             string rate = String.Empty;
+            amountPerSecond = Math.Abs(amountPerSecond);
             if (amountPerSecond * 60 * 60 * 24 < 1)
             {
                 rate = $"{amountPerSecond * 30 * 24 * 3600:F1} / month";
