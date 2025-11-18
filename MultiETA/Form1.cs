@@ -7,7 +7,7 @@ namespace MultiETA
     public partial class Form1 : Form
     {
         private string MutexName => "MultiETASingleInstance";
-
+        private Mutex? _mutex = null;
         
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -19,11 +19,9 @@ namespace MultiETA
 
         private void OnlyHaveOneInstanceOpen()
         {
-            Mutex mutex = new Mutex(true, MutexName, out bool createdNew);
+            _mutex = new Mutex(true, MutexName, out bool createdNew);
             if (createdNew)
             {
-                // Don't let the garbage collector cull this
-                GC.KeepAlive(mutex);
                 return;
             }
 
