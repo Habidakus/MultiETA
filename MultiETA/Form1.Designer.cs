@@ -43,6 +43,8 @@
             button4 = new Button();
             textBox1 = new TextBox();
             button_add_category = new Button();
+            category_name_text_box = new TextBox();
+            category_name_label = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -62,6 +64,8 @@
             // tabPage1
             // 
             tabPage1.AutoScroll = true;
+            tabPage1.Controls.Add(category_name_label);
+            tabPage1.Controls.Add(category_name_text_box);
             tabPage1.Controls.Add(button_sort);
             tabPage1.Controls.Add(button_add_eta);
             tabPage1.Controls.Add(button_remove_category);
@@ -209,6 +213,23 @@
             button_add_category.UseVisualStyleBackColor = true;
             button_add_category.Click += button_add_category_Click;
             // 
+            // category_name_text_box
+            // 
+            category_name_text_box.Location = new Point(306, 17);
+            category_name_text_box.Margin = new Padding(3, 4, 3, 4);
+            category_name_text_box.Name = "category_name_text_box";
+            category_name_text_box.Size = new Size(304, 27);
+            category_name_text_box.TabIndex = 10;
+            // 
+            // category_name_label
+            // 
+            category_name_label.AutoSize = true;
+            category_name_label.Location = new Point(184, 20);
+            category_name_label.Name = "category_name_label";
+            category_name_label.Size = new Size(116, 20);
+            category_name_label.TabIndex = 10;
+            category_name_label.Text = "Category Name:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -222,6 +243,7 @@
             Load += Form1_Load;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
@@ -244,5 +266,7 @@
         private Label label5;
         private Label label4;
         private Button button_sort;
+        private Label category_name_label;
+        private TextBox category_name_text_box;
     }
 }
